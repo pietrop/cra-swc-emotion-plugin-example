@@ -2,7 +2,20 @@
 
 Repo for reproducing error with `swc` and `@swc/plugin-emotion`. For [issue using `@swc/plugin-emotion` with `swc` `.swcrc` - `failed to process input file` · Discussion #5450 · swc-project/swc](https://github.com/swc-project/swc/discussions/5450) - issue [swc-project/swc/issues/5453](https://github.com/swc-project/swc/issues/5453)
 
+## setup 
+To setup
+```
+git clone git@github.com:pietrop/cra-swc-emotion-plugin-example.git
+```
+```
+cd cra-swc-emotion-plugin-example
+```
+## to reproduce the error
+```
+npm run build:commonjs
+```
 
+## See the error 
 running `npm run build:commonjs` (`npx swc ./src --config-file ./swcrc/.swcrc.commonjs -d dist/cjs`) gives this error 
 
 ```sh
@@ -116,6 +129,7 @@ src/index.js
 
 </details>
 
+##  `@emotion/react` dependency
 Note that I added `@emotion/react` amongst the dependencies. But haven't added emotion to the react example, because `swc` seems to be having troubles locating the plugin(?) to being with.
 
 ## Links
