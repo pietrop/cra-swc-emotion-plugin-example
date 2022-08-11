@@ -116,7 +116,7 @@ src/index.js
 
 </details>
 
-
+Note that I added `@emotion/react` amongst the dependencies. But haven't added emotion to the react example, because `swc` seems to be having troubles locating the plugin(?) to being with.
 
 ## Links
 - [GitHub - swc-project/plugins: Plugins for swc, written in rust](https://github.com/swc-project/plugins)
