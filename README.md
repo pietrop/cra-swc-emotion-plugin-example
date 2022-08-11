@@ -1,70 +1,125 @@
-# Getting Started with Create React App
+# cra-swc-emotion-plugin-example
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Repo for reproducing error with `swc` and `@swc/plugin-emotion`. For [issue using `@swc/plugin-emotion` with `swc` `.swcrc` - `failed to process input file` · Discussion #5450 · swc-project/swc](https://github.com/swc-project/swc/discussions/5450)
 
-## Available Scripts
 
-In the project directory, you can run:
+running `npm run build:commonjs` (`npx swc ./src --config-file ./swcrc/.swcrc.commonjs -d dist/cjs`) gives this error 
 
-### `npm start`
+```sh
+Caused by:
+    0: failed to invoke `@swc/plugin-emotion` as js transform plugin at node_modules/@swc/plugin-emotion/swc_plugin_emotion.wasm
+    1: RuntimeError: unreachable
+```
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+Hower I can confirm that `node_modules/@swc/plugin-emotion/swc_plugin_emotion.wasm` is in the repo.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+```
+$ ls -lha node_modules/@swc/plugin-emotion/swc_plugin_emotion.wasm
+-rwxr-xr-x  1 user  role   4.0M Aug 11 16:35 node_modules/@swc/plugin-emotion/swc_plugin_emotion.wasm
+```
 
-### `npm test`
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+<details><summary>full error from terminal when running <code>npm run build:commonjs</code></summary>
 
-### `npm run build`
+```sh
+> cra-swc-emotion-plugin-example@0.1.0 build:commonjs
+> npx swc ./src --config-file ./swcrc/.swcrc.commonjs -d dist/cjs
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+thread '<unnamed>' panicked at 'called `Result::unwrap()` on an `Err` value: LayoutError', /home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/rkyv-0.7.39/src/impls/core/mod.rs:266:67
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+thread '<unnamed>' panicked at 'called `Result::unwrap()` on an `Err` value: LayoutError', /home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/rkyv-0.7.39/src/impls/core/mod.rs:266:67
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+thread 'thread '<unnamed><unnamed>' panicked at '' panicked at 'failed to invoke plugin: failed to invoke plugin on 'Some("src/App.js")'
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Caused by:
+    0: failed to invoke `@swc/plugin-emotion` as js transform plugin at node_modules/@swc/plugin-emotion/swc_plugin_emotion.wasm
+    1: RuntimeError: unreachable
+           at __rust_start_panic (<module>[3485]:0x131e37)
+           at rust_panic (<module>[3476]:0x131b1e)
+           at std::panicking::rust_panic_with_hook::h6f835c06e363bae7 (<module>[3475]:0x131a9b)
+           at std::panicking::begin_panic_handler::{{closure}}::hde80e0a1ba88c211 (<module>[3459]:0x130d31)
+           at std::sys_common::backtrace::__rust_end_short_backtrace::hdcc677413d02e608 (<module>[3458]:0x130c70)
+           at rust_begin_unwind (<module>[3470]:0x1313c6)
+           at core::panicking::panic_fmt::hfa8eb99d625b4b7c (<module>[3643]:0x145938)
+           at core::result::unwrap_failed::hdc7db882e306e849 (<module>[3676]:0x146da1)
+           at rkyv::impls::core::<impl rkyv::DeserializeUnsized<[U],D> for [T]>::deserialize_unsized::h93e51ac04736fd61 (<module>[69]:0x96bb)
+           at swc_common::plugin::serialized::PluginSerializedBytes::deserialize::hade638a1c5fd77cd (<module>[67]:0x7edf)
+           at swc_common::plugin::serialized::deserialize_from_ptr::h438cdafee1285f9a (<module>[66]:0x7cf7)
+           at __transform_plugin_process_impl (<module>[677]:0x84db5)
+           at __transform_plugin_process_impl.command_export (<module>[3772]:0x14cd66)
+    2: unreachable', failed to invoke plugin: failed to invoke plugin on 'Some("src/index.js")'
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Caused by:
+    0: failed to invoke `@swc/plugin-emotion` as js transform plugin at node_modules/@swc/plugin-emotion/swc_plugin_emotion.wasm
+    1: RuntimeError: unreachable
+           at __rust_start_panic (<module>[3485]:0x131e37)
+           at rust_panic (<module>[3476]:0x131b1e)
+           at std::panicking::rust_panic_with_hook::h6f835c06e363bae7 (<module>[3475]:0x131a9b)
+           at std::panicking::begin_panic_handler::{{closure}}::hde80e0a1ba88c211 (<module>[3459]:0x130d31)
+           at std::sys_common::backtrace::__rust_end_short_backtrace::hdcc677413d02e608 (<module>[3458]:0x130c70)
+           at rust_begin_unwind (<module>[3470]:0x1313c6)
+           at core::panicking::panic_fmt::hfa8eb99d625b4b7c (<module>[3643]:0x145938)
+           at core::result::unwrap_failed::hdc7db882e306e849 (<module>[3676]:0x146da1)
+           at rkyv::impls::core::<impl rkyv::DeserializeUnsized<[U],D> for [T]>::deserialize_unsized::h93e51ac04736fd61 (<module>[69]:0x96bb)
+           at swc_common::plugin::serialized::PluginSerializedBytes::deserialize::hade638a1c5fd77cd (<module>[67]:0x7edf)
+           at swc_common::plugin::serialized::deserialize_from_ptr::h438cdafee1285f9a (<module>[66]:0x7cf7)
+           at __transform_plugin_process_impl (<module>[677]:0x84db5)
+           at __transform_plugin_process_impl.command_export (<module>[3772]:0x14cd66)
+    2: unreachable', crates/swc/src/plugin.rs:222:14
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+crates/swc/src/plugin.rs:222:14
+failed to handle: failed to invoke plugin: failed to invoke plugin on 'Some("src/index.js")'
 
-### `npm run eject`
+Caused by:
+    0: failed to invoke `@swc/plugin-emotion` as js transform plugin at node_modules/@swc/plugin-emotion/swc_plugin_emotion.wasm
+    1: RuntimeError: unreachable
+           at __rust_start_panic (<module>[3485]:0x131e37)
+           at rust_panic (<module>[3476]:0x131b1e)
+           at std::panicking::rust_panic_with_hook::h6f835c06e363bae7 (<module>[3475]:0x131a9b)
+           at std::panicking::begin_panic_handler::{{closure}}::hde80e0a1ba88c211 (<module>[3459]:0x130d31)
+           at std::sys_common::backtrace::__rust_end_short_backtrace::hdcc677413d02e608 (<module>[3458]:0x130c70)
+           at rust_begin_unwind (<module>[3470]:0x1313c6)
+           at core::panicking::panic_fmt::hfa8eb99d625b4b7c (<module>[3643]:0x145938)
+           at core::result::unwrap_failed::hdc7db882e306e849 (<module>[3676]:0x146da1)
+           at rkyv::impls::core::<impl rkyv::DeserializeUnsized<[U],D> for [T]>::deserialize_unsized::h93e51ac04736fd61 (<module>[69]:0x96bb)
+           at swc_common::plugin::serialized::PluginSerializedBytes::deserialize::hade638a1c5fd77cd (<module>[67]:0x7edf)
+           at swc_common::plugin::serialized::deserialize_from_ptr::h438cdafee1285f9a (<module>[66]:0x7cf7)
+           at __transform_plugin_process_impl (<module>[677]:0x84db5)
+           at __transform_plugin_process_impl.command_export (<module>[3772]:0x14cd66)
+    2: unreachable
+failed to handle: failed to invoke plugin: failed to invoke plugin on 'Some("src/App.js")'
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+Caused by:
+    0: failed to invoke `@swc/plugin-emotion` as js transform plugin at node_modules/@swc/plugin-emotion/swc_plugin_emotion.wasm
+    1: RuntimeError: unreachable
+           at __rust_start_panic (<module>[3485]:0x131e37)
+           at rust_panic (<module>[3476]:0x131b1e)
+           at std::panicking::rust_panic_with_hook::h6f835c06e363bae7 (<module>[3475]:0x131a9b)
+           at std::panicking::begin_panic_handler::{{closure}}::hde80e0a1ba88c211 (<module>[3459]:0x130d31)
+           at std::sys_common::backtrace::__rust_end_short_backtrace::hdcc677413d02e608 (<module>[3458]:0x130c70)
+           at rust_begin_unwind (<module>[3470]:0x1313c6)
+           at core::panicking::panic_fmt::hfa8eb99d625b4b7c (<module>[3643]:0x145938)
+           at core::result::unwrap_failed::hdc7db882e306e849 (<module>[3676]:0x146da1)
+           at rkyv::impls::core::<impl rkyv::DeserializeUnsized<[U],D> for [T]>::deserialize_unsized::h93e51ac04736fd61 (<module>[69]:0x96bb)
+           at swc_common::plugin::serialized::PluginSerializedBytes::deserialize::hade638a1c5fd77cd (<module>[67]:0x7edf)
+           at swc_common::plugin::serialized::deserialize_from_ptr::h438cdafee1285f9a (<module>[66]:0x7cf7)
+           at __transform_plugin_process_impl (<module>[677]:0x84db5)
+           at __transform_plugin_process_impl.command_export (<module>[3772]:0x14cd66)
+    2: unreachable
+Failed to compile 2 files with swc.
+Error: Failed to compile:
+src/App.js
+src/index.js
+    at initialCompilation (/Users/pietropassarelli/CODE/cra-swc-emotion-plugin-example/node_modules/@swc/cli/lib/swc/dir.js:172:19)
+    at async dir (/Users/pietropassarelli/CODE/cra-swc-emotion-plugin-example/node_modules/@swc/cli/lib/swc/dir.js:16:5)
+```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+</details>
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
 
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## Links
+- [GitHub - swc-project/plugins: Plugins for swc, written in rust](https://github.com/swc-project/plugins)
+  - [plugins/packages/emotion at main · swc-project/plugins](https://github.com/swc-project/plugins/tree/main/packages/emotion)
+- [[Meta] collecting feedback for new transform plugin interface · Discussion #3540 · swc-project/swc](https://github.com/swc-project/swc/discussions/3540)
+- [issue using `@swc/plugin-emotion` with `swc` `.swcrc` - `failed to process input file` · Discussion #5450 · swc-project/swc](https://github.com/swc-project/swc/discussions/5450)
