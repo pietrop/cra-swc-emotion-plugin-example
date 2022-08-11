@@ -1,6 +1,6 @@
 # cra-swc-emotion-plugin-example
 
-Repo for reproducing error with `swc` and `@swc/plugin-emotion`. For [issue using `@swc/plugin-emotion` with `swc` `.swcrc` - `failed to process input file` · Discussion #5450 · swc-project/swc](https://github.com/swc-project/swc/discussions/5450)
+Repo for reproducing error with `swc` and `@swc/plugin-emotion`. For [issue using `@swc/plugin-emotion` with `swc` `.swcrc` - `failed to process input file` · Discussion #5450 · swc-project/swc](https://github.com/swc-project/swc/discussions/5450) - issue [swc-project/swc/issues/5453](https://github.com/swc-project/swc/issues/5453)
 
 
 running `npm run build:commonjs` (`npx swc ./src --config-file ./swcrc/.swcrc.commonjs -d dist/cjs`) gives this error 
