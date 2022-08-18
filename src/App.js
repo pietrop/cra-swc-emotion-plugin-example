@@ -16,7 +16,7 @@ function App() {
       {({ css, cx }) => (
         <div
         className={cx(css(baseClassName))}
-        >Test</div>
+        >Red</div>
       )}
     </ClassNames>
 
