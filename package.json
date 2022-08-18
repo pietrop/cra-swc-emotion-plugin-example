@@ -16,7 +16,7 @@
   "scripts": {
     "clear:dist": "rm -rf ./dist",
     "build:mjs": " npx swc ./src --config-file ./swcrc/.swcrc.mjs -d dist/mjs",
-    "build:commonjs": "npx swc ./src --config-file ./.swcrc.commonjs -d dist/cjs",
+    "build:commonjs": "npx swc ./src --config-file ./swcrc/.swcrc.commonjs -d dist/cjs",
     "build:dist": "npm run clear:dist && npm run build:commonjs && npm run build:mjs",
     "start": "react-scripts start",
     "test": "react-scripts test",

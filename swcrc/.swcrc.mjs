@@ -1,6 +1,9 @@
 {
   "exclude": ".test.js$|.stories.js$|examples.js$|setupTests.js$",
   "jsc": {
+    "experimental": {
+      "plugins": [ ["@swc/plugin-emotion",{"sourceMap": false}]]
+    },
     "parser": {
       "syntax": "ecmascript",
       "jsx": true,
